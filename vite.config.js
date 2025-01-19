@@ -7,27 +7,7 @@ export default defineConfig({
         laravel({
             input: 'resources/js/app.jsx',
             refresh: true,
-            // Pastikan URL production menggunakan HTTPS
-            url: process.env.APP_URL || 'https://faqih-project-management-5ec2c54f2fa9.herokuapp.com'
         }),
         react(),
     ],
-    server: {
-        https: true,
-        host: '0.0.0.0',
-        hmr: {
-            host: process.env.VITE_APP_URL || 'localhost',
-        },
-    },
-    // Tambahkan konfigurasi untuk production
-    build: {
-        // Pastikan semua asset menggunakan HTTPS
-        cssCodeSplit: true,
-        sourcemap: false,
-        rollupOptions: {
-            output: {
-                manualChunks: undefined,
-            },
-        },
-    }
 });
