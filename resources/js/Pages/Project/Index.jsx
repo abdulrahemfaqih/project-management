@@ -138,31 +138,39 @@ export default function Index({ auth, projects, queryParams = null }) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {projects.data.map(project => (
-                                            <tr className='bg-white border-b' key={project.id}>
-                                                <th className='px-3 py-2'>{project.id}</th>
-                                                <td className='px-3 py-2 w-28 h-28 object-cover'>
-                                                    <img src={project.image_path} />
-                                                </td>
-                                                <th className='px-3 py-2 hover:underline'>
-                                                    <Link href={route("project.show", project.id)}>{project.name}</Link>
-                                                </th>
-                                                <td className='px-3 py-2'>
-                                                    <span className={"px-2 py-1 rounded " + PROJECT_STATUS_CLASS_MAP[project.status]}>{PROJECT_STATUS_TEXT_MAP[project.status]}</span>
-                                                </td>
-                                                <td className='px-3 py-2 text-nowrap'>{project.created_at}</td>
-                                                <td className='px-3 py-2 text-nowrap'>{project.due_date}</td>
-                                                <td className='px-3 py-2'>{project.createdBy.name}</td>
-                                                <td className='px-3 py-2'>
-                                                    <Link href={route('project.edit', project.id)} className='font-medium text-blue-600 mx-4'>
-                                                        Edit
-                                                    </Link>
-                                                    <Link href={route('project.destroy', project.id)} className='font-medium text-red-500'>
-                                                        Delete
-                                                    </Link>
+                                        {projects.data && projects.data.length === 0 ? (
+                                            projects.data.map(project => (
+                                                <tr className='bg-white border-b' key={project.id}>
+                                                    <th className='px-3 py-2'>{project.id}</th>
+                                                    <td className='px-3 py-2 w-28 h-28 object-cover'>
+                                                        <img src={project.image_path} />
+                                                    </td>
+                                                    <th className='px-3 py-2 hover:underline'>
+                                                        <Link href={route("project.show", project.id)}>{project.name}</Link>
+                                                    </th>
+                                                    <td className='px-3 py-2'>
+                                                        <span className={"px-2 py-1 rounded " + PROJECT_STATUS_CLASS_MAP[project.status]}>{PROJECT_STATUS_TEXT_MAP[project.status]}</span>
+                                                    </td>
+                                                    <td className='px-3 py-2 text-nowrap'>{project.created_at}</td>
+                                                    <td className='px-3 py-2 text-nowrap'>{project.due_date}</td>
+                                                    <td className='px-3 py-2'>{project.createdBy.name}</td>
+                                                    <td className='px-3 py-2'>
+                                                        <Link href={route('project.edit', project.id)} className='font-medium text-blue-600 mx-4'>
+                                                            Edit
+                                                        </Link>
+                                                        <Link href={route('project.destroy', project.id)} className='font-medium text-red-500'>
+                                                            Delete
+                                                        </Link>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                                <td colSpan="8" className="text-center p-4">
+                                                    No projects found.
                                                 </td>
                                             </tr>
-                                        ))}
+                                        )}
                                     </tbody>
                                 </table>
                             </div>
