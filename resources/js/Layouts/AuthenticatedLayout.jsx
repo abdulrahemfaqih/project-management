@@ -33,7 +33,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                 <NavLink
                                     href={route('project.index')}
                                     active={route().current('project.index')}
-                                >
+                                > 
                                     Projects
                                 </NavLink>
                                 <NavLink

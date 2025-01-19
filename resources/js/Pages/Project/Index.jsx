@@ -5,9 +5,9 @@ import { PROJECT_STATUS_CLASS_MAP, PROJECT_STATUS_TEXT_MAP } from '@/constant.js
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { Head, Link, router } from '@inertiajs/react'
 import React from 'react'
-import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/16/solid'
+import TableHeading from '@/Components/TableHeading'
 
-export default function index({ auth, projects, queryParams = null }) {
+export default function Index({ auth, projects, queryParams = null }) {
     queryParams = queryParams || {}
 
     const searchFieldChange = (name, value) => {
@@ -17,7 +17,9 @@ export default function index({ auth, projects, queryParams = null }) {
             delete queryParams[name]
         }
 
-        router.get(route('project.index'), queryParams)
+        router.get(route('project.index'), queryParams, {
+            preserveScroll: true
+        })
     }
 
     const onKeyPress = (name, e) => {
@@ -37,7 +39,9 @@ export default function index({ auth, projects, queryParams = null }) {
             queryParams.sort_direction = "asc"
         }
 
-        router.get(route('project.index'), queryParams)
+        router.get(route('project.index'), queryParams, {
+            preserveScroll: true
+        })
     }
 
     return (
@@ -59,54 +63,47 @@ export default function index({ auth, projects, queryParams = null }) {
                                 <table className='w-full text-sm text-left rtl:text-right text-gray-500'>
                                     <thead className='text-xs text-gray-700 uppercase border-b-2 bg-gray-50 border-gray-500'>
                                         <tr className='text-nowrap'>
-                                            <th onClick={e => sortChange("id")} className='px-3 py-3 '>
-                                                <div className='flex justify-between items-center gap-1 cursor-pointer'>
-                                                    ID
-                                                    <div>
-                                                        <ChevronUpIcon className={"w-4 text-gray-300 " + ((queryParams.sort_field === "id" && queryParams.sort_direction === 'asc') ? "!text-black" : "")}  />
-                                                        <ChevronDownIcon className={"w-4 -mt-1 text-gray-300  " + ((queryParams.sort_field === "id" && queryParams.sort_direction === 'desc') ? "!text-black" : "")} />
-                                                    </div>
-                                                </div>
-                                            </th>
+                                            <TableHeading
+                                                sort_field={queryParams.sort_field}
+                                                sort_direction={queryParams.sort_direction}
+                                                name="id"
+                                                sortChange={sortChange}
+                                            >
+                                                ID
+                                            </TableHeading>
                                             <th className='px-3 py-3'>Image</th>
-                                            <th onClick={e => sortChange("name")} className='px-3 py-3 w-80'>
-                                                <div className='flex justify-between items-center gap-1 cursor-pointer'>
-                                                    Name
-                                                    <div>
-                                                        <ChevronUpIcon className={"w-4 text-gray-300 " + ((queryParams.sort_field === "name" && queryParams.sort_direction === 'asc') ? "!text-black" : "")} />
-                                                        <ChevronDownIcon className={"w-4 text-gray-300 " + ((queryParams.sort_field === "name" && queryParams.sort_direction === 'desc') ? "!text-black" : "")} />
-                                                    </div>
-                                                </div>
-                                            </th>
-                                            <th onClick={e => sortChange("status")} className='px-3 py-3 '>
-                                                <div className='flex justify-between items-center gap-1 cursor-pointer'>
-                                                    Status
-                                                    <div>
-                                                        <div>
-                                                            <ChevronUpIcon className={"w-4 text-gray-300 " + ((queryParams.sort_field === "status" && queryParams.sort_direction === 'asc') ? "!text-black" : "")} />
-                                                            <ChevronDownIcon className={"w-4 text-gray-300 " + ((queryParams.sort_field === "status" && queryParams.sort_direction === 'desc') ? "!text-black" : "")} />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </th>
-                                            <th onClick={e => sortChange("created_at")} className='px-3 py-3'>
-                                                <div className='flex justify-between items-center gap-1 cursor-pointer'>
-                                                    Created Date
-                                                    <div>
-                                                        <ChevronUpIcon className={"w-4 text-gray-300 " + ((queryParams.sort_field === "created_at" && queryParams.sort_direction === 'asc') ? "!text-black" : "")} />
-                                                        <ChevronDownIcon className={"w-4 text-gray-300 " + ((queryParams.sort_field === "created_at" && queryParams.sort_direction === 'desc') ? "!text-black" : "")} />
-                                                    </div>
-                                                </div>
-                                            </th>
-                                            <th onClick={e => sortChange("due_date")} className='px-3 py-3'>
-                                                <div className='flex justify-between items-center gap-1 cursor-pointer'>
-                                                    Due Date
-                                                    <div>
-                                                        <ChevronUpIcon className={"w-4 text-gray-300 " + ((queryParams.sort_field === "due_date" && queryParams.sort_direction === 'asc') ? "!text-black" : "")} />
-                                                        <ChevronDownIcon className={"w-4 text-gray-300 " + ((queryParams.sort_field === "due_date" && queryParams.sort_direction === 'desc') ? "!text-black" : "")} />
-                                                    </div>
-                                                </div>
-                                            </th>
+                                            <TableHeading
+                                                sort_field={queryParams.sort_field}
+                                                sort_direction={queryParams.sort_direction}
+                                                name="name"
+                                                sortChange={sortChange}
+                                            >
+                                                Name
+                                            </TableHeading>
+                                            <TableHeading
+                                                sort_field={queryParams.sort_field}
+                                                sort_direction={queryParams.sort_direction}
+                                                name="status"
+                                                sortChange={sortChange}
+                                            >
+                                                Status
+                                            </TableHeading>
+                                            <TableHeading
+                                                sort_field={queryParams.sort_field}
+                                                sort_direction={queryParams.sort_direction}
+                                                name="created_at"
+                                                sortChange={sortChange}
+                                            >
+                                                Created Date
+                                            </TableHeading>
+                                            <TableHeading
+                                                sort_field={queryParams.sort_field}
+                                                sort_direction={queryParams.sort_direction}
+                                                name="due_date"
+                                                sortChange={sortChange}
+                                            >
+                                                Due Datw
+                                            </TableHeading>
                                             <th className='px-3 py-3'>Created By</th>
                                             <th className='px-3 py-3 text-right'>Actions</th>
                                         </tr>
@@ -119,7 +116,8 @@ export default function index({ auth, projects, queryParams = null }) {
                                                 <TextInput className='w-full' placeholder="Project Name"
                                                     defaultValue={queryParams.name}
                                                     onBlur={e => searchFieldChange('name', e.target.value)}
-                                                    onKeyPress={e => onKeyPress('name', e)}
+                                                    onKeyPress
+                                                    ={e => onKeyPress('name', e)}
                                                 />
                                             </th>
                                             <th className='px-3 py-3'>
@@ -146,7 +144,9 @@ export default function index({ auth, projects, queryParams = null }) {
                                                 <td className='px-3 py-2 w-28 h-28 object-cover'>
                                                     <img src={project.image_path} />
                                                 </td>
-                                                <td className='px-3 py-2'>{project.name}</td>
+                                                <th className='px-3 py-2 hover:underline'>
+                                                    <Link href={route("project.show", project.id)}>{project.name}</Link>
+                                                </th>
                                                 <td className='px-3 py-2'>
                                                     <span className={"px-2 py-1 rounded " + PROJECT_STATUS_CLASS_MAP[project.status]}>{PROJECT_STATUS_TEXT_MAP[project.status]}</span>
                                                 </td>
@@ -171,8 +171,6 @@ export default function index({ auth, projects, queryParams = null }) {
                     </div>
                 </div>
             </div>
-
-
         </AuthenticatedLayout>
     )
 }
