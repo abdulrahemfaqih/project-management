@@ -10,7 +10,7 @@ export default function index({ auth, tasks, queryParams = null }) {
             user={auth.user}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Projects
+                    All Tasks
                 </h2>
             }
         >

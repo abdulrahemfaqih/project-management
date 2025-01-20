@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 
 export default forwardRef(function TextInput(
-    { type = 'text', className = '', isFocused = false, ...props },
+    { type = 'text', className = '', isFocused = false, onChange, ...props },
     ref,
 ) {
     const localRef = useRef(null);
@@ -16,6 +16,20 @@ export default forwardRef(function TextInput(
         }
     }, [isFocused]);
 
+    const handleChange = (e) => {
+        if (type === 'file') {
+            // Handle file input change
+            if (onChange) {
+                onChange(e.target.files[0] || null); // Return the first file or null
+            }
+        } else {
+            // Handle other input types
+            if (onChange) {
+                onChange(e);
+            }
+        }
+    };
+
     return (
         <input
             {...props}
@@ -25,6 +39,7 @@ export default forwardRef(function TextInput(
                 className
             }
             ref={localRef}
+            onChange={handleChange}
         />
     );
 });

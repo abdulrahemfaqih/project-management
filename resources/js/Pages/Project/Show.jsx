@@ -23,7 +23,6 @@ export default function Show({ project, auth, tasks, queryParams }) {
             <Head title={`Project ${project.name}`} />
 
             <div className="py-12">
-
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <Breadcrumbs breadcrumbs={breadCrumbs}/>
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
@@ -85,7 +84,7 @@ export default function Show({ project, auth, tasks, queryParams }) {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900 space-y-6">
-                            <TaskTable tasks={tasks} queryParams={{ ...queryParams, project_id: project.id }} context='project' />
+                            <TaskTable tasks={tasks} queryParams={{ ...queryParams, project_id: project.id }} context='project' hideProjectColumn={true} />
                         </div>
                     </div>
                 </div>

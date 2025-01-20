@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\Project;
+use Illuminate\Support\Str;
+use App\Http\Resources\TaskResource;
+use App\Http\Resources\ProjectResource;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
-use App\Http\Resources\ProjectResource;
-use App\Http\Resources\TaskResource;
-use Inertia\Inertia;
 
 class ProjectController extends Controller
 {
@@ -40,7 +41,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render("Project/Create");
     }
 
     /**
@@ -48,7 +49,20 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        //
+
+        $data = $request->validated();
+        $image = $data["image"] ?? null;
+        $data["created_by"] = auth()->id();
+        $data["updated_by"] = auth()->id();
+        if ($image) {
+            if ($image instanceof \Illuminate\Http\UploadedFile) {
+                $fileName = Str::random() . "." . $image->getClientOriginalExtension();
+                $data["image_path"] = $image->storeAs('project', $fileName, "public");
+            }
+        }
+
+        Project::create($data);
+        return to_route("project.index")->with("success",  "Data berhasil ditambahkan");
     }
 
     /**

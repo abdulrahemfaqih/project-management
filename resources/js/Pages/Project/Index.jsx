@@ -3,12 +3,24 @@ import SelectInput from '@/Components/SelectInput'
 import TextInput from '@/Components/TextInput'
 import { PROJECT_STATUS_CLASS_MAP, PROJECT_STATUS_TEXT_MAP } from '@/constant.jsx'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import { Head, Link, router } from '@inertiajs/react'
-import React from 'react'
+import { Head, Link, router, usePage } from '@inertiajs/react'
+import React, { useEffect } from 'react'
 import TableHeading from '@/Components/TableHeading'
+import toast from 'react-hot-toast'
 
-export default function Index({ auth, projects, queryParams = null }) {
+export default function Index({ auth, projects, queryParams = null, flash}) {
     queryParams = queryParams || {}
+
+
+
+
+    useEffect(() => {
+        if (flash.success) {
+            toast.success(flash.success, {
+                duration: 3000
+            });
+        }
+    }, [flash]);
 
     const searchFieldChange = (name, value) => {
         if (value) {
@@ -48,9 +60,14 @@ export default function Index({ auth, projects, queryParams = null }) {
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Projects
-                </h2>
+                <div className='flex justify-between items-center'>
+                    <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                        Projects
+                    </h2>
+                    <Link className='underline text-gray-600 hover:text-black' href={route("project.create")}>
+                        Add
+                    </Link>
+                </div>
             }
         >
             <Head title="Projects" />
@@ -138,12 +155,12 @@ export default function Index({ auth, projects, queryParams = null }) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {projects.data && projects.data.length === 0 ? (
+                                        {projects.data && projects.data.length > 0 ? (
                                             projects.data.map(project => (
                                                 <tr className='bg-white border-b' key={project.id}>
                                                     <th className='px-3 py-2'>{project.id}</th>
                                                     <td className='px-3 py-2 w-28 h-28 object-cover'>
-                                                        <img src={project.image_path} />
+                                                        {project.image_path ? <img src={project.image_path} /> : <p className='text-xs text-center'>tidak ada gambar</p>}
                                                     </td>
                                                     <th className='px-3 py-2 hover:underline'>
                                                         <Link href={route("project.show", project.id)}>{project.name}</Link>

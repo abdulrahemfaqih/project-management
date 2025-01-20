@@ -6,7 +6,7 @@ import SelectInput from '@/Components/SelectInput'
 import TextInput from '@/Components/TextInput'
 import { TASK_STATUS_CLASS_MAP, TASK_STATUS_TEXT_MAP } from '@/constant.jsx'
 
-export default function TaskTable({ tasks, queryParams = null, context = "task" }) {
+export default function TaskTable({ tasks, queryParams = null, context = "task", hideProjectColumn = false }) {
     queryParams = queryParams || {}
     const searchFieldChange = (name, value) => {
         if (value) {
@@ -67,6 +67,9 @@ export default function TaskTable({ tasks, queryParams = null, context = "task" 
                                 ID
                             </TableHeading>
                             <th className='px-3 py-3'>Image</th>
+                            {!hideProjectColumn &&
+                                <th className='px-3 py-3'>Project Name</th>
+                            }
                             <TableHeading
                                 sort_field={queryParams.sort_field}
                                 sort_direction={queryParams.sort_direction}
@@ -75,6 +78,7 @@ export default function TaskTable({ tasks, queryParams = null, context = "task" 
                             >
                                 Name
                             </TableHeading>
+
                             <TableHeading
                                 sort_field={queryParams.sort_field}
                                 sort_direction={queryParams.sort_direction}
@@ -107,8 +111,9 @@ export default function TaskTable({ tasks, queryParams = null, context = "task" 
                         <tr className='text-nowrap'>
                             <th className='px-3 py-3'></th>
                             <th className='px-3 py-3'></th>
-                            <th className='px-3 py-3 w-80'>
-                                <TextInput className='w-full' placeholder="Project Name"
+                            {!hideProjectColumn && <th className='px-3 py-3'></th>}
+                            <th className='px-3 py-3'>
+                                <TextInput className='w-full' placeholder="Task Name"
                                     defaultValue={queryParams.name}
                                     onBlur={e => searchFieldChange('name', e.target.value)}
                                     onKeyPress
@@ -142,6 +147,7 @@ export default function TaskTable({ tasks, queryParams = null, context = "task" 
                                         <img src={task.image_path} />
                                     </td>
                                     <td className='px-3 py-2'>{task.name}</td>
+                                    {!hideProjectColumn && <td className='px-3 py-2'>{task.project.name}</td>}
                                     <td className='px-3 py-2'>
                                         <span className={"px-2 py-1 rounded " + TASK_STATUS_CLASS_MAP[task.status]}>{TASK_STATUS_TEXT_MAP[task.status]}</span>
                                     </td>
